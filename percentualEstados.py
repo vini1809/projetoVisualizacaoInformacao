@@ -39,3 +39,4 @@ df_jogos['key'] = 1
 
 df = pd.merge(df_periodo, df_jogos, on='key').drop("key", 1)
 df = df.query('data >= inicio & data <= fim')
+
