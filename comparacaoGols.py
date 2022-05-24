@@ -1,4 +1,5 @@
 ### importando bibliotecas
+import pandas
 import pandas as pd
 import warnings as wa
 import seaborn as sns
@@ -81,31 +82,42 @@ saopaulo = [*saopaulo, saopaulo[0]]
 label_loc = np.linspace(start=0, stop=2 * np.pi, num=len(corinthians))
 
 plt.figure(figsize=(12, 8), edgecolor='#000000', facecolor='#E5E5E5')
-plt.subplot(2, 2, 1, polar=True)
+plt.subplot(3, 2, 1, polar=True)
 plt.fill(label_loc, corinthians, '#000000')
 plt.plot(label_loc, corinthians, '#000000', label='Corinthians')
 plt.title('Corinthians', size=12)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories, size=8)
 plt.suptitle('Comparação de gols no Campeonato Brasileiro entre os anos 2003 - 2020', fontsize=16)
-plt.subplot(2, 2, 2, polar=True)
+plt.subplot(3, 2, 2, polar=True)
 plt.fill(label_loc, flamengo, '#ff0000')
 plt.plot(label_loc, flamengo, '#ff0000', label='Flamengo')
 plt.title('Flamengo', size=12)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories, size=8)
-plt.subplot(2, 2, 3, polar=True)
+plt.subplot(3, 2, 3, polar=True)
 plt.fill(label_loc, palmeiras, '#008d00')
 plt.plot(label_loc, palmeiras, '#008d00', label='Palmeiras')
 plt.title('Palmeiras', size=12)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories, size=8)
-plt.subplot(2, 2, 4, polar=True)
+plt.subplot(3, 2, 4, polar=True)
 plt.fill(label_loc, atletico, '#ffffff')
 plt.plot(label_loc, atletico, '#000000', label='Atlético-Mg')
 plt.title('Atlético-Mg', size=12)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories, size=8)
-plt.subplots_adjust(left=0.122,
+plt.subplots_adjust(left=0.22,
                     bottom=0.105,
                     right=0.9,
                     top=0.88,
                     wspace=0.189,
                     hspace=0.38)
 plt.show()
+
+times = ['corinthians', 'flamengo', 'palmeiras', 'atletico']
+casa = [gols_corinthians_mandante, gols_flamengo_mandante, gols_palmeiras_mandante, gols_atletico_mandante]
+fora = [gols_corinthians_visitante, gols_flamengo_visitante, gols_palmeiras_visitante, gols_atletico_visitante]
+total = [gols_corinthians_total, gols_flamengo_total, gols_palmeiras_total, gols_atletico_total]
+media = [gols_corinthians_media,gols_flamengo_media, gols_palmeiras_media, gols_atletico_media]
+
+tabela = pd.DataFrame({'times':times, 'casa':casa, 'fora':fora, 'total':total, 'media':media})
+print(tabela)
+
+
