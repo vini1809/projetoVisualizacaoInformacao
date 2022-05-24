@@ -40,3 +40,45 @@ df_jogos['key'] = 1
 df = pd.merge(df_periodo, df_jogos, on='key').drop("key", 1)
 df = df.query('data >= inicio & data <= fim')
 
+SPmandante = df.loc[df['estado mandante'] == 'SP']['estado vencedor'].count()
+MGmandante = df.loc[df['estado mandante'] == 'MG']['estado vencedor'].count()
+RJmandante = df.loc[df['estado mandante'] == 'RJ']['estado vencedor'].count()
+SPvisitante = df.loc[df['estado visitante'] == 'SP']['estado vencedor'].count()
+MGvisitante = df.loc[df['estado visitante'] == 'MG']['estado vencedor'].count()
+RJvisitante = df.loc[df['estado visitante'] == 'RJ']['estado vencedor'].count()
+sptotal = SPmandante + SPvisitante
+mgtotal = MGmandante + MGvisitante
+rjtotal = RJmandante + RJvisitante
+
+estados = ['SÃO PAULO', 'MINAS GERAIS', 'RIO DE JANEIRO']
+
+data = [sptotal, mgtotal, rjtotal]
+
+explode = (0.1, 0.0, 0.0)
+colors = ("cyan", "grey", "indigo",)
+wp = {'linewidth': 1, 'edgecolor': "black"}
+
+
+def func(pct, allvalues):
+    absolute = int(pct / 100. * np.sum(allvalues))
+    return "{:.1f}%\n({:d} v)".format(pct, absolute)
+
+
+fig, ax = plt.subplots(figsize=(10, 7))
+wedges, texts, autotexts = ax.pie(data,
+                                  autopct=lambda pct: func(pct, data),
+                                  explode=explode,
+                                  labels=estados,
+                                  shadow=True,
+                                  colors=colors,
+                                  startangle=90,
+                                  wedgeprops=wp,
+                                  textprops=dict(color="black"))
+ax.legend(wedges, estados,
+          title="Estados",
+          loc="center left",
+          bbox_to_anchor=(1, 0, 0.5, 1))
+
+plt.setp(autotexts, size=8, weight="bold")
+ax.set_title("Vitorias por estado Campeonato Brasileiro 2003-2020", size=24)
+plt.show()
